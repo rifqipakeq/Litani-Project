@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div>
-                            <img src="{{ Storage::url('$fundraisingWithdrawal->fundraising->thumbnail') }}" alt="" class="rounded-2xl object-cover w-[300px] h-[200px] mb-3">
+                            <img src="{{ Storage::url($fundraisingWithdrawal->fundraising->thumbnail) }}" alt="thumbnail" class="rounded-2xl object-cover w-[300px] h-[200px] mb-3">
                             <h3 class="text-indigo-950 text-xl font-bold"></h3>
                             <p class="text-slate-500 text-sm">Rp {{ number_format($fundraisingWithdrawal->fundraising->target_amount,0,',','.') }}</p>
                         </div>

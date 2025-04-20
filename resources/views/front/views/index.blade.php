@@ -1,5 +1,5 @@
 @extends('front.layouts.app')
-@section('title', 'Litani Project')
+@section('title', 'index-page')
 @section('content')
 
 <section class="max-w-[640px] w-full min-h-screen mx-auto flex flex-col bg-white overflow-x-hidden pb-[134px]">

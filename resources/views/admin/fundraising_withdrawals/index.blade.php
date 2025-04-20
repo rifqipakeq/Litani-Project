@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Withdrawals') }}
+                {{ __('Withdrawal') }}
             </h2>
         </div>
     </x-slot>
@@ -34,7 +34,7 @@
                         <h3 class="text-indigo-950 text-xl font-bold">{{ $withdrawal->fundraiser->user->name }}</h3>
                     </div>
                     @if($withdrawal->has_sent)
-                    @if($withdrawal->has_received)
+                        @if($withdrawal->has_received)
                         <span class="w-fit text-sm font-bold py-2 px-3 rounded-full bg-green-500 text-white">
                             DELIVERED
                         </span>

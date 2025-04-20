@@ -86,9 +86,9 @@
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div class="mt-4">
-                        <x-input-label for="notes" :value="__('notes')" />
+                        <x-input-label for="notes" :value="__('noted')" />
                         <textarea name="notes" id="notes" cols="30" rows="5" class="border border-slate-300 rounded-xl w-full"></textarea>
-                        <x-input-error :messages="$errors->get('notes')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('noted')" class="mt-2" />
                     </div>
                     <div class="mt-4 w-fit">
                         <x-input-label for="photo" :value="__('photo')" />

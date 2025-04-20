@@ -27,7 +27,7 @@ class RoleSeeder extends Seeder
             'name' => 'admin',
             'avatar' => '/public/assets/images/default-avatar.jpg',
             'email' => 'admin@owner.com',
-            'password' => bcrypt('123230119'),
+            'password' => bcrypt('admin@owner.com'),
         ]);
 
         $userOwner->assignRole($ownerRole);

@@ -1,12 +1,12 @@
 @extends('front.layouts.app')
-@section('title', 'Litani Project')
+@section('title', 'details-page')
 @section('content')
 
 <section class="max-w-[640px] w-full min-h-screen mx-auto flex flex-col bg-white overflow-x-hidden">
     <div class="header flex flex-col bg-[#56BBC5] overflow-hidden h-[350px] relative -mb-[92px]">
         <nav class="pt-5 px-3 flex justify-between items-center relative z-20">
             <div class="flex items-center gap-[10px]">
-                <a href="index.html" class="w-10 h-10 flex shrink-0">
+                <a href="{{ route('front.index') }}" class="w-10 h-10 flex shrink-0">
                     <img src="{{asset('assets/images/icons/back.svg')}}" alt="icon">
                 </a>
             </div>
@@ -24,15 +24,30 @@
         </div>
     </div>
     <div class="flex flex-col z-30">
+        @if($fundraising->has_finished)
+        <div id="status" class="w-full h-[92px] bg-[#76AE43] rounded-t-[40px] pt-3 pb-[50px] flex gap-2 justify-center items-center -mb-[38px]">
+            <div class="w-[30px] h-[30px] flex shrink-0">
+                <img src="{{ asset('assets/images/icons/lovely.svg') }}" alt="icon">
+            </div>
+            <p class="font-semibold text-sm text-white">This Fundraising has been finished</p>
+        </div>
+        @else
         <div id="status" class="w-full h-[92px] bg-[#FF7815] rounded-t-[40px] pt-3 pb-[50px] flex gap-2 justify-center items-center -mb-[38px]">
             <div class="w-[30px] h-[30px] flex shrink-0">
                 <img src="{{asset('assets/images/icons/lovely.svg')}}" alt="icon">
             </div>
             <p class="font-semibold text-sm text-white">Everyone deserves your best help</p>
         </div>
+        @endif
+
         <div id="content" class="w-full bg-white rounded-t-[40px] flex flex-col gap-5 p-[30px_24px_120px]">
             <div class="flex flex-col gap-[10px]">
+                @if($fundraising->has_finished)
+                <p class="badge bg-[#76AE43] rounded-full p-[6px_12px] font-bold text-xs text-white w-fit leading-[18px]">FINISHED</p>
+                @else
                 <p class="badge bg-[#40BCD9] rounded-full p-[6px_12px] font-bold text-xs text-white w-fit leading-[18px]">IN PROGRESS</p>
+                @endif
+
                 <h1 class="font-extrabold text-[26px] leading-[39px]">{{ $fundraising->name }}</h1>
                 <div class="flex items-center gap-2">
                     <div class="w-9 h-9 flex shrink-0 rounded-full overflow-hidden">
@@ -54,81 +69,59 @@
                 </div>
                 <progress id="fund" value="{{ $fundraising->getPercentageAttribute() }}" max="100" class="w-full h-[6px] rounded-full overflow-hidden"></progress>
             </div>
+
+            @forelse ($fundraising->fundraising_phases as $phase)
+            <div class="flex flex-col gap-[10px] p-5 rounded-[20px] bg-[#F6ECE2]">
+                <h2 class="font-semibold text-sm">{{ $phase->name }}</h2>
+                <div class="aspect-[61/30] rounded-2xl bg-[#D9D9D9] overflow-hidden">
+                    <img src="{{ Storage::url($phase->photo) }}" class="w-full h-full object-cover" alt="thumbnail">
+                </div>
+                <p class="text-sm leading-[26px]">{{ $phase->notes }}</p>
+            </div>
+            @empty
+            @endforelse
+
+
             <div class="flex flex-col gap-[2px]">
                 <h2 class="font-semibold text-sm">About</h2>
                 <p class="desc-less text-sm leading-[26px]">{{ $fundraising->about }}</p>
             </div>
             <div class="flex flex-col gap-3">
+                
                 <div class="flex items-center justify-between">
-                    <h2 class="font-semibold text-sm">Supporters (18,309)</h2>
+                    <h2 class="font-semibold text-sm"> Supporters ({{ $fundraising->donaturs->count()}})</h2>
                     <a href="" class="p-[6px_12px] rounded-full bg-[#E8E9EE] font-semibold text-sm">View All</a>
                 </div>
                 <div class="flex flex-col gap-4">
+
+                    @forelse ($fundraising->donaturs as $donatur)
                     <div class="flex items-center gap-3">
                         <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
                             <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
                         </div>
                         <div class="flex flex-col gap-[2px] w-full">
                             <div class="flex items-center justify-between">
-                                <p class="font-bold">Rp 200.000</p>
-                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">by Annemi</p>
+                                <p class="font-bold">Rp {{ number_format($donatur->total_amount, 0, ',','.') }}</p>
+                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">{{ $donatur->name }}</p>
                             </div>
-                            <p class="caption text-xs leading-[18px] text-[#66697A]">“Ayo semangat pasti kamu bisa!”</p>
+                            <p class="caption text-xs leading-[18px] text-[#66697A]">{{ $donatur->noted }}</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
-                            <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
-                        </div>
-                        <div class="flex flex-col gap-[2px] w-full">
-                            <div class="flex items-center justify-between">
-                                <p class="font-bold">Rp 12.500.000</p>
-                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">by Saranova</p>
-                            </div>
-                            <p class="caption text-xs leading-[18px] text-[#66697A]">“Jangan lupa berdoa agar lancar”</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
-                            <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
-                        </div>
-                        <div class="flex flex-col gap-[2px] w-full">
-                            <div class="flex items-center justify-between">
-                                <p class="font-bold">Rp 15.000.000</p>
-                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">by Angga</p>
-                            </div>
-                            <p class="caption text-xs leading-[18px] text-[#66697A]">“Terus dicoba saya yakin bisa”</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
-                            <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
-                        </div>
-                        <div class="flex flex-col gap-[2px] w-full">
-                            <div class="flex items-center justify-between">
-                                <p class="font-bold">Rp 80.000</p>
-                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">by Dermatopi</p>
-                            </div>
-                            <p class="caption text-xs leading-[18px] text-[#66697A]">“Ayo semangat pasti kamu bisa!”</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
-                            <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
-                        </div>
-                        <div class="flex flex-col gap-[2px] w-full">
-                            <div class="flex items-center justify-between">
-                                <p class="font-bold">Rp 560.000.000</p>
-                                <p class="font-semibold text-[10px] leading-[15px] text-right text-[#66697A]">by Shayna</p>
-                            </div>
-                            <p class="caption text-xs leading-[18px] text-[#66697A]">“Jangan lupa berdoa agar lancar”</p>
-                        </div>
-                    </div>
+
+                    @empty 
+                    <p>
+                        KOSONG LEKK
+                    </p>
+                    @endforelse 
+              
                 </div>
             </div>
         </div>
     </div>
-    <a href="send-support.html" class="p-[14px_20px] bg-[#76AE43] rounded-full text-white w-fit mx-auto font-semibold hover:shadow-[0_12px_20px_0_#76AE4380] transition-all duration-300 fixed bottom-[30px] transform -translate-x-1/2 left-1/2 z-40 text-nowrap">Send My Support Now</a>
+    
+    @if(!$goalReached)
+    <a href="{{ route('front.support', $fundraising->slug) }}" class="p-[14px_20px] bg-[#76AE43] rounded-full text-white w-fit mx-auto font-semibold hover:shadow-[0_12px_20px_0_#76AE4380] transition-all duration-300 fixed bottom-[30px] transform -translate-x-1/2 left-1/2 z-40 text-nowrap">Send My Support Now</a>
+    @endif
 </section>
 
 @endsection

@@ -2,119 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\Donatur;
+use App\Models\Fundraiser;
+use App\Models\Fundraising;
+use App\Models\FundraisingiWithdrawal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-        $categories = Category::all();
+    public function apply_fundraiser(){
 
-        return view('admin.categories.index', compact('categories'));
-    }
+        $user = Auth::user();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-        return view('admin.categories.create');
+        DB::transaction(function () use ($user) {
+            $validated['user_id'] = $user->id;
+            $validated['is_active'] = false;
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
-        DB::transaction(function () use ($request){
-
-            $validated = $request->validated();
-
-            if($request->hasFile('icon')){
-                $iconPath = $request->file('icon')->store('icons','public');
-                $validated['icon'] = $iconPath;
-            } else {
-                $iconPath = 'images/icon-category-default.png';
-            }
-
-            $validated['slug'] = Str::slug($validated['name']);
-
-            $category = Category::create($validated);
-            
+            Fundraiser::create($validated);
         });
 
-        return redirect()->route('admin.categories.index');
+        return redirect()->route('admin.fundraisers.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
+    public function my_withdrawals(){
+        $user = Auth::user();
+        $fundraiserId = $user->fundraiser->id;
+
+        $withdrawals = FundraisingiWithdrawal::where('fundraiser_id', $fundraiserId)->orderByDesc('id')->get();
+
+        return view('admin.my_withdrawals.index', compact('withdrawals'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-        return view('admin.categories.edit', compact('category'));
-
+    public function my_withdrawals_details(FundraisingiWithdrawal $fundraisingiWithdrawal){
+        return view('admin.my_withdrawals.details', [
+            'fundraisingWithdrawal' => $fundraisingiWithdrawal
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-        DB::transaction(function () use ($request, $category){
 
-            $validated = $request->validated();
+    public function index(){
+        $user = Auth::user();
 
-            if($request->hasFile('icon')){
-                $iconPath = $request->file('icon')->store('icons','public');
-                $validated['icon'] = $iconPath;
-            } 
-            
-            $validated['slug'] = Str::slug($validated['name']);
+        $fundraisingiQuery = Fundraising::query();
+        $withdrawalsQuery = FundraisingiWithdrawal::query();
+        
+        if($user->hasRole('Fundraiser')){
+            $fundraiserId = $user->fundraiser->id;
 
-            $category->update($validated);
-            
-        });
+            $fundraisingiQuery->where('fundraiser_id',$fundraiserId);
+            $withdrawalsQuery->where('fundraiser_id',$fundraiserId);
 
-        return redirect()->route('admin.categories.index');
-    }
+            $fundraisingIds = $fundraisingiQuery->pluck('id');
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        DB::beginTransaction();
-
-        try {
-            $category->delete();
-            DB::commit();
-            return redirect()->route('admin.categories.index');
+            $donaturs = Donatur::whereIn('fundraising_id', $fundraisingIds)
+            ->where('is_paid',true)
+            ->count();
+        } else {
+            $donaturs = Donatur::where('is_paid', true)
+            ->count();
         }
-        catch(\Exception $e){
-            DB::rollBack();
-            return redirect()->route('admin.categories.index');
-        }
+
+        $fundraisings = $fundraisingiQuery->count();
+        $withdrawals = $withdrawalsQuery->count();
+        $categories = Category::count();
+        $fundraisers = Fundraiser::count();
+
+        return view('dashboard', compact('donaturs','fundraisings','categories','withdrawals','fundraisers'));
     }
 }

@@ -16,7 +16,6 @@ class Category extends Model
       'icon', 
     ];
 
-    //kenapa jamak karena lebih dari satu , satu category dimiliki banyak kasus one to many, category menerima banyak kasus
     public function fundraisings(){
       return $this->hasMany(Fundraising::class);
     }

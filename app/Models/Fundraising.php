@@ -22,7 +22,6 @@ class Fundraising extends Model
         'target_amount',
     ];
 
-    //km ini dimiliki oleh kategori tertentu (ORM disini itu buat jelasin relasi antar table keknya ya)
     public function category(){
         return $this->belongsTo(Category::class);
     }
@@ -31,18 +30,20 @@ class Fundraising extends Model
         return $this->belongsTo(Fundraiser::class);
     }
 
-    //akan dianggap donatur jika status true
     public function donaturs(){
         return $this->hasMany(Donatur::class)->where('is_paid', 1);
     }
 
-    //fungsi tambahan buat itung
     public function totalReachedAmount(){
         return $this->donaturs()->sum('total_amount');
     }
 
     public function withdrawals(){
-        return $this->hasMany(FundraisingiWithdrawal::class)    ;
+        return $this->hasMany(FundraisingiWithdrawal::class);
+    }
+
+    public function fundraising_phases(){
+        return $this->hasMany(FundraisingiPhase::class);
     }
 
     public function getPercentageAttribute(){
@@ -54,9 +55,5 @@ class Fundraising extends Model
 
         return 0;
     }
-
-
-
-
-    
+   
 }

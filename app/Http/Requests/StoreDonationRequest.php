@@ -26,7 +26,7 @@ class StoreDonationRequest extends FormRequest
             'name' => ['required','string','max:255'],
             'phone_number' => ['required','integer'],
             'proof' => ['required','image','mimes:jpg,png,jpeg'],
-            'notes' => ['required','string','max:65535'],
+            'noted' => ['required','string','max:65535'],
         ];
     }
 }

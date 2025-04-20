@@ -28,6 +28,6 @@ class FundraisingiWithdrawal extends Model
     }
 
     public function fundraising(){
-        return $this->belongsTo(Fundraising::class);
+        return $this->belongsTo(Fundraising::class)->withTrashed();;
     }
 }

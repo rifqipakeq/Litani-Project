@@ -12,9 +12,10 @@ class Donatur extends Model
 
     protected $fillable = [
         'name',
-        'notes',
+        'noted',
         'fundraising_id',
         'total_amount',
+        'phone_number',
         'is_paid',
         'proof',
     ];

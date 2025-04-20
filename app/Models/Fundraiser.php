@@ -15,7 +15,6 @@ class Fundraiser extends Model
         'user_id',
     ];
 
-    // kita bisa lihat oh fundraiser dgn id sekian user sekian
     public function user(){
         return $this->belongsTo(User::class);
     }

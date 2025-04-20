@@ -1,5 +1,5 @@
 @extends('front.layouts.app')
-@section('title', 'Litani Project')
+@section('title', 'category-page')
 @section('content')
 
 <section class="max-w-[640px] w-full min-h-screen mx-auto flex flex-col bg-[#FCF7F1] overflow-x-hidden pb-4">
@@ -7,7 +7,7 @@
         <nav class="pt-5 px-3 flex justify-between items-center">
             <div class="flex items-center gap-[10px]">
                 <a href="{{ route('front.index') }}" class="w-10 h-10 flex shrink-0">
-                    <img src="{{ asset('css/output.css')}}') }}" alt="icon">
+                    <img src="{{ asset('assets/images/icons/back.svg')}}" alt="icon">
                 </a>
             </div>
             <p class="font-semibold text-sm text-white">Browse Fundraisings</p>
@@ -40,7 +40,7 @@
             </div>
         </a>
         @empty
-        <p>Belum ada data.</p>
+        <p>Belum ada data tersedia.</p>
         @endforelse
 
     </div>
