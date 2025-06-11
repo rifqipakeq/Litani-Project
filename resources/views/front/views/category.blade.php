@@ -3,16 +3,16 @@
 @section('content')
 
 <section class="max-w-[640px] w-full min-h-screen mx-auto flex flex-col bg-[#FCF7F1] overflow-x-hidden pb-4">
-    <div class="header flex flex-col bg-[#56BBC5] rounded-b-[50px] overflow-hidden h-[320px] bg-gradient-to-b from-[#3CBBDB] to-[#EAD380] -mb-[181px]">
+    <div class="header flex flex-col bg-[#FA9852] rounded-b-[50px] overflow-hidden h-[320px] -mb-[181px]">
         <nav class="pt-5 px-3 flex justify-between items-center">
             <div class="flex items-center gap-[10px]">
                 <a href="{{ route('front.index') }}" class="w-10 h-10 flex shrink-0">
-                    <img src="{{ asset('assets/images/icons/back.svg')}}" alt="icon">
+                    <img src="{{ asset('assets/images/icons/back-pet.svg')}}" alt="icon">
                 </a>
             </div>
-            <p class="font-semibold text-sm text-white">Browse Fundraisings</p>
+            <p class="font-semibold text-sm text-white">Cari Penggalangan Dana</p>
             <a href="" class="w-10 h-10 flex shrink-0">
-                <img src="{{asset('assets/images/icons/menu-dot.svg')}}" alt="icon">
+                {{-- <img src="{{asset('assets/images/icons/menu-dot.svg')}}" alt="icon"> --}}
             </a>
         </nav>
         <div class="mt-5">

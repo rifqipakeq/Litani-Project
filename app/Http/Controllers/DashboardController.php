@@ -63,8 +63,8 @@ class DashboardController extends Controller
         } else {
             $donaturs = Donatur::where('is_paid', true)
             ->count();
-        }
 
+        }
         $fundraisings = $fundraisingiQuery->count();
         $withdrawals = $withdrawalsQuery->count();
         $categories = Category::count();

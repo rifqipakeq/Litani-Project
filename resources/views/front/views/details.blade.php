@@ -7,15 +7,14 @@
         <nav class="pt-5 px-3 flex justify-between items-center relative z-20">
             <div class="flex items-center gap-[10px]">
                 <a href="{{ route('front.index') }}" class="w-10 h-10 flex shrink-0">
-                    <img src="{{asset('assets/images/icons/back.svg')}}" alt="icon">
+                    <img src="{{asset('assets/images/icons/back-pet.svg')}}" alt="icon">
                 </a>
             </div>
             <div class="flex flex-col items-center text-center">
-                <p class="text-xs leading-[18px] text-white">Details</p>
-                <p class="font-semibold text-sm text-white">#WeNeedHelp</p>
+                <p class="font-semibold text-sm text-white">Details</p>
             </div>
             <a href="" class="w-10 h-10 flex shrink-0">
-                <img src="{{asset('assets/images/icons/like.svg')}}" alt="icon">
+                {{-- <img src="{{asset('assets/images/icons/like.svg')}}" alt="icon"> --}}
             </a>
         </nav>
         <div class="w-full h-full absolute bg-white overflow-hidden">
@@ -29,14 +28,14 @@
             <div class="w-[30px] h-[30px] flex shrink-0">
                 <img src="{{ asset('assets/images/icons/lovely.svg') }}" alt="icon">
             </div>
-            <p class="font-semibold text-sm text-white">This Fundraising has been finished</p>
+            <p class="font-semibold text-sm text-white">Donasi Sudah Ditutup</p>
         </div>
         @else
         <div id="status" class="w-full h-[92px] bg-[#FF7815] rounded-t-[40px] pt-3 pb-[50px] flex gap-2 justify-center items-center -mb-[38px]">
             <div class="w-[30px] h-[30px] flex shrink-0">
                 <img src="{{asset('assets/images/icons/lovely.svg')}}" alt="icon">
             </div>
-            <p class="font-semibold text-sm text-white">Everyone deserves your best help</p>
+            <p class="font-semibold text-sm text-white">Every Creature deserves our help</p>
         </div>
         @endif
 
@@ -89,15 +88,15 @@
             <div class="flex flex-col gap-3">
                 
                 <div class="flex items-center justify-between">
-                    <h2 class="font-semibold text-sm"> Supporters ({{ $fundraising->donaturs->count()}})</h2>
-                    <a href="" class="p-[6px_12px] rounded-full bg-[#E8E9EE] font-semibold text-sm">View All</a>
+                    <h2 class="font-semibold text-sm"> Donatur ({{ $fundraising->donaturs->count()}})</h2>
+                    <a href="" class="p-[6px_12px] rounded-full bg-[#E8E9EE] font-semibold text-sm">Lihat Semua</a>
                 </div>
                 <div class="flex flex-col gap-4">
 
                     @forelse ($fundraising->donaturs as $donatur)
                     <div class="flex items-center gap-3">
                         <div class="w-[50px] h-[50px] flex shrink-0 rounded-full overflow-hidden">
-                            <img src="{{asset('assets/images/photos/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
+                            <img src="{{asset('assets/images/avatar-default.svg')}}" class="w-full h-full object-cover" alt="avatar">
                         </div>
                         <div class="flex flex-col gap-[2px] w-full">
                             <div class="flex items-center justify-between">
@@ -110,7 +109,7 @@
 
                     @empty 
                     <p>
-                        KOSONG LEKK
+                        Data masih kosong, belum ada donatur yang berpartisipasi.
                     </p>
                     @endforelse 
               
@@ -120,7 +119,7 @@
     </div>
     
     @if(!$goalReached)
-    <a href="{{ route('front.support', $fundraising->slug) }}" class="p-[14px_20px] bg-[#76AE43] rounded-full text-white w-fit mx-auto font-semibold hover:shadow-[0_12px_20px_0_#76AE4380] transition-all duration-300 fixed bottom-[30px] transform -translate-x-1/2 left-1/2 z-40 text-nowrap">Send My Support Now</a>
+    <a href="{{ route('front.support', $fundraising->slug) }}" class="p-[14px_20px] bg-[#76AE43] rounded-full text-white w-fit mx-auto font-semibold hover:shadow-[0_12px_20px_0_#76AE4380] transition-all duration-300 fixed bottom-[30px] transform -translate-x-1/2 left-1/2 z-40 text-nowrap">Kirim Donasi Sekarang</a>
     @endif
 </section>
 
