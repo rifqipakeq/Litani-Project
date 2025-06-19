@@ -17,6 +17,8 @@ Route::get('/category/{category}', [FrontController::class, 'category'])->name('
 
 Route::get('/specific/', [FrontController::class, 'specific'])->name('front.specific');
 
+Route::get('/specific-fund/', [FrontController::class, 'specificFund'])->name('front.specificFund');
+
 Route::get('/details/{fundraising:slug}', [FrontController::class, 'details'])->name('front.details');
 
 Route::get('/support/{fundraising:slug}', [FrontController::class, 'support'])->name('front.support');
