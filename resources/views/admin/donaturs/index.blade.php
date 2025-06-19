@@ -16,7 +16,15 @@
                 @forelse($donaturs as $donatur)
                 <div class="item-card flex flex-row justify-between items-center">
                     <div class="flex flex-row items-center gap-x-3">
-                        <img src="{{ Storage::url($donatur->fundraising->thumbnail) }}" alt="" class="rounded-2xl object-cover w-[90px] h-[90px]">
+                        @if ($donatur->fundraising->thumbnail == null)
+                            <img src="{{ asset('assets/images/avatar-default.svg') }}"
+                                class="w-full h-full object-cover"
+                                alt="avatar">
+                        @else
+                            <img src="{{ Storage::url($donatur->fundraising->thumbnail) }}"
+                                alt="thumbnail"
+                                class="rounded-2xl object-cover w-[90px] h-[90px]">
+                        @endif
                         <div class="flex flex-col">
                             <h3 class="text-indigo-950 text-xl font-bold">{{ $donatur->name }}</h3>
                             <p class="text-slate-500 text-sm">{{ $donatur->created_at }}</p>
